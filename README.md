@@ -59,7 +59,7 @@ Standard deviation sigma = 0.1
 
 Learning rate = 0.005 = 5e-3
 
-My performance is 90% and better. (Notice that on the imbalanced data the performance might get even higher. The reason for that is that the validation data
+My performance around 85% on a balanced dataset with artificial disturbances. (Notice that on the imbalanced data the performance is even higher. The reason for that is that the validation data
 is imbalanced like the training data). Why is that: The classifier implicitly learns the a priori probability. Because label 3's probability is more than 11 times higher than label 0's probability.
 
 Anyway it is important and good for the generalization to balance the dataset. This can also be seen in the Softmax Probabilities later.
