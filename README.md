@@ -47,31 +47,72 @@ The model is exactly LeNet from Yann LeCun with the modification that I increase
 I run the net locally on my graphics card. Btw. it took me some time to find out why Jupyter Notebook is not finding the CUDA shared object libraries...
 -> You need to pass the environment variables to the jupyter notebook of course.
 
+My model architecture is still based on the LeNet architecture which consists of the following layers:
+
+Input: 32x32x3
+Conv 5x5: 1x1 stride, valid padding, 28x28x32
+RELU: same dim
+Max pooling: 14x14x32
+Conv 5x5: 1x1 stride, valid padding, 10x10x64
+RELU: same dim
+Max pooling: 5x5x64
+Flatten: 1600
+Fully connected: 800
+RELU: same
+Fully connected: 512
+RELU: same
+Fully connected: 43 (classes
+
+I used the Adam optimizer because it worked well in the other example as well. Adam realizes the benefits of both AdaGrad and RMSProp.
+
+"Adaptive Gradient Algorithm (AdaGrad) that maintains a per-parameter learning rate that improves performance on problems with sparse gradients (e.g. natural language and computer vision problems).
+Root Mean Square Propagation (RMSProp) that also maintains per-parameter learning rates that are adapted based on the average of recent magnitudes of the gradients for the weight (e.g. how quickly it is changing). This means the algorithm does well on online and non-stationary problems (e.g. noisy)."
+
+Taken from (https://machinelearningmastery.com/adam-optimization-algorithm-for-deep-learning/)
+
+I terminated learning when performance was > 95% on the validation test set.
+
+
+What architecture was chosen? 
+LeNet 5
+
+Why did you believe it would be relevant to the traffic sign application? 
+LeNet is a well know architecture to be applied on character recognition as well, so I gave it a try.
+
+How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well? 
+Validation perofance while training was > 0.95 (testing > 0.93), which suits the needs for this assignment.
+
+
+
 My other hyper parameters are 
 
 Processing:
-EPOCHS = 25
-BATCH_SIZE = 512
+EPOCHS = 1000 (break statement when performance is >95% on validation -> was the case after only 9 iterations
+BATCH_SIZE = 128
 
 Weights:
 Mean mu = 0
 Standard deviation sigma = 0.1
 
-Learning rate = 0.005 = 5e-3
+Learning rate = 0.001 = 1e-3
 
-My performance around 85% on a balanced dataset with artificial disturbances. (Notice that on the imbalanced data the performance is even higher. The reason for that is that the validation data
-is imbalanced like the training data). Why is that: The classifier implicitly learns the a priori probability. Because label 3's probability is more than 11 times higher than label 0's probability.
+My performance is > 95% on a more balanced validation dataset with artificial disturbances. My performance on the testset is > 93%
 
 Anyway it is important and good for the generalization to balance the dataset. This can also be seen in the Softmax Probabilities later.
 
 
 #### 4 Test a Model on New Images
 
-I did not download the raw images (as suggested in the notebook) from the web, since I think test dataset was meant to be used)
+I downloaded 5 images from the web.
+One was an artificial image
+One was a sign with graffiti on it
 
-When I apply the CNN to six new images from the test set the performance is mostly 100%.
+The perofance is good. The passing prohibition sign was not classified correctly because I thought this was an easy one. It could be because it is dirty. The next lower softmax probability was the correct one.
+
+When I apply the CNN to six new images from the test set the performance is 80%.
 Softmax Probabilities for the candidates after the winner are most of the time several orders of magnitude away from the winner, which is an indicator for 
 robustness of the net.
+
 
 #### 5 (Optional): Visualize the Neural Network's State with Test Images
 
